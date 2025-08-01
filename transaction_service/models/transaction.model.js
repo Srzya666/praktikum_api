@@ -7,5 +7,24 @@ module.exports = (sequelize, DataTypes) => {
     // Transaction.belongsTo(models.User);
     // Transaction.belongsTo(models.Product);
   };
-  return Transaction;
+
+  const User = sequelize.define("User", {
+    name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+  });
+  User.associate = (models) => {
+    // User.hasMany(models.Transaction);
+  };
+
+  const Product = sequelize.define("Product", {
+    name: DataTypes.STRING,
+    price: DataTypes.INTEGER,
+    stock: DataTypes.INTEGER,
+  });
+  Product.associate = (models) => {
+    // Product.hasMany(models.Transaction);
+  };
+
+  return {Transaction,User,Product};
 };
