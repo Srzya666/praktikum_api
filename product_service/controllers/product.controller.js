@@ -1,4 +1,5 @@
 const db = require('../models');
+const axios = require('axios');
 const Product = db.Product;
 
 exports.getAll = async (req, res) => {
@@ -22,7 +23,12 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+    const {id, name} = req.body;
+      const product = await Product.create(req.body);
+      await axios.post('http://localhost:4005/events', {
+        type: 'ProductCreated',
+        data: {id, name},
+    });
     res.status(201).json(product);
   } catch (err) {
     res.status(500).json({ error: err.message });
