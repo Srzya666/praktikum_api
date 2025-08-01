@@ -11,7 +11,7 @@ app.post('/events', async (req, res) => {
     //submit event
     axios.post('http://localhost:4001/api/events',event);
     axios.post('http://localhost:4002/api/events',event);
-    //axios.post('http://localhost:4003/api/events');
+    axios.post('http://localhost:4003/api/events');
 
     res.send('Event submited');
 })

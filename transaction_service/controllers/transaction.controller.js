@@ -1,5 +1,6 @@
 const db = require('../models');
 const Transaction = db.Transaction;
+const axios = require('axios');
 const userService = require('../services/user.service');
 const productService = require('../services/product.service');
 
@@ -25,10 +26,11 @@ exports.getById = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const { userId, productId, quantity } = req.body;
-
+    
     // Panggil user_service & product_service
     const user = await userService.getUserById(userId);
     const product = await productService.getProductById(productId);
+    
 
     if (!user || !product) {
       return res.status(400).json({ error: 'User atau Product tidak valid' });
@@ -42,7 +44,10 @@ exports.create = async (req, res) => {
       quantity,
       totalPrice
     });
-
+        await axios.post('http://localhost:4005/events', {
+          type: 'TransactionCreated',
+          data: {userId, productId, quantity},
+        });
     res.status(201).json(transaction);
   } catch (err) {
     res.status(500).json({ error: err.message });

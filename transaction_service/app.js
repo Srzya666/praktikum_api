@@ -10,8 +10,10 @@ app.get('/', (req, res) => res.send('API aktif!'));
 
 // tambahkan routing kamu dibawah sini
 const transactionRoutes = require('./routes/transaction.route');
+const eventRoutes = require('./routes/event.route');
 
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/events', eventRoutes);
 
 // Koneksi ke database
 sequelize.authenticate()
